@@ -6,6 +6,28 @@ import User from "../models/user.model"
 import bcryptjs from "bcrypt"
 import sign from "../utils/signJWT"
 
+export const createUser = async  ( req : Request,res : Response, next :NextFunction) => {
+    try {
+      const salt = bcryptjs.genSaltSync(10)
+      bcryptjs.hash(req.body.password,salt,async (err,ress)=>{
+
+
+    const user = new User({name:req.body.name,email:req.body.email, password:ress});
+   const userSaved= await user.save()
+       return res.status(200).send({
+            message: "Successfully added",
+            IsSuccess: true,
+            result: userSaved
+        });
+    })
+      } catch (e) {
+        return res.status(500).json({
+          message: e.message,
+          e
+      });
+      }
+  };
+
 
 const login = async ( req : Request,res : Response, next :NextFunction) => {
 
@@ -55,7 +77,7 @@ const login = async ( req : Request,res : Response, next :NextFunction) => {
                     })
                 }else if (token){
                     return res.status(200).json({
-                        message: "hay tfadhal aasba",
+                        message: "welcome",
                         token,
                         user
                     })
@@ -74,4 +96,4 @@ const login = async ( req : Request,res : Response, next :NextFunction) => {
 
 
 
-export default {login};
+export default {login, createUser};

@@ -21,7 +21,7 @@ const authorizationMiddelware = ( req : Request,res : Response, next :NextFuncti
     }else{
 
         return res.status(401).json({
-            message: "Win dekhel aasba"
+            message: "Access Denied"
         })
     }
 

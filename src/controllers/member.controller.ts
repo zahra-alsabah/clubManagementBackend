@@ -1,7 +1,6 @@
 import MemberSchema  from '../models/member.model';
 import Member from '../interfaces/member.interface';
 import { NextFunction,Response,Request } from "express";
-import mongoose from 'mongoose';
 
 
 export const getMemberList = async ( req : Request,res : Response, next :NextFunction) => {
@@ -38,10 +37,10 @@ export const getMemberList = async ( req : Request,res : Response, next :NextFun
 
 export const updateMember = async ( req : Request,res : Response, next :NextFunction) => {
     try {
-      let member: Member = req.body;
+      const member: Member = req.body;
 
-      member =  await MemberSchema.findOneAndUpdate({_id: req.params.id},member);
-        res.status(200).send({
+      await MemberSchema.findOneAndUpdate({_id: req.params.id},member);
+       await res.status(200).send({
             message: "Successfully updated",
              IsSuccess: true,
              result: member
